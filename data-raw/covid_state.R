@@ -23,9 +23,6 @@ covid_state <- states |>
     names_to = "year",
     values_to = "deaths"
   ) |>
-  mutate(year = factor(
-    year,
-    levels = c("2020", "2021", "2022", "2023", "2024")
-  ))
+  mutate(year = as.integer(year))
 
 usethis::use_data(covid_state, overwrite = TRUE)
