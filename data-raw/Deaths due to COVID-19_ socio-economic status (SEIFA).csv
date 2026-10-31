@@ -1,0 +1,16 @@
+"Deaths due to COVID-19: socio-economic status (SEIFA)"
+"SEIFA Quintile","2020","2021","2022","2023","2024","Total"
+"1 (most disadvantaged)","289","580","3,156","1,272","64","5,361"
+"2","239","307","2,431","1,116","38","4,131"
+"3","128","208","1,911","853","45","3,145"
+"4","106","160","1,602","683","18","2,569"
+"5 (least disadvantaged)","140","96","1,146","516","23","1,921"
+
+" a. Includes COVID-19 death registrations only. Numbers will differ to disease surveillance systems."
+" b. Includes all COVID-19 deaths (both doctor and coroner certified) that occurred and were registered by 31 January 2024."
+" c. Deaths due to COVID-19 in this report have an underlying cause of either ICD-10 code U07.1 COVID-19, virus identified; U07.2 COVID-19, virus not identified as the underlying cause of death; or U10.9 Multisystem inflammatory syndrome associated with COVID-19."
+" d. Data is provisional and subject to change."
+" e. Refer to the methodology for more information regarding the data in this graph."
+" f. Data for SEIFA (Index of relative social disadvantage) quintiles have been calculated using a SA1 to SEIFA (IRSD) correspondence based on 2021 ASGS."
+
+" Source: Australian Bureau of Statistics, COVID-19 Mortality in Australia: Deaths registered until 31 January 2024 27/02/2024"
