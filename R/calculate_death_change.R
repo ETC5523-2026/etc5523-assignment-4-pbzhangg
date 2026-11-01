@@ -16,7 +16,7 @@
 #' 
 #' @examples
 #' # Compare COVID-19 deaths between 2020 and 2022
-#' summarise_seifa_deaths(year_from = 2020, year_to = 2022)
+#' calculate_death_change(year_from = 2020, year_to = 2022)
 #' 
 #' @importFrom dplyr filter group_by summarise arrange desc
 #' @export

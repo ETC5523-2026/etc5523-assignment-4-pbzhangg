@@ -10,8 +10,8 @@ calculate_death_change(data = covid_state, year_from, year_to)
 calculate_death_change(data = covid_state, year_from, year_to)
 }
 \arguments{
-\item{data}{A data frame containing \code{state}, \code{year}, and \code{deaths}.
-Defaults to the included \code{covid_state} dataset.}
+\item{data}{A data frame containing \verb{SEIFA Quintile}, \code{year}, and \code{deaths}.
+Defaults to the included \code{covid_seifa} dataset.}
 
 \item{year_from}{An integer specifying the starting year of the comparison.}
 
@@ -23,7 +23,7 @@ in each specified year, absolute change in deaths, and percentage change in
 deaths. Results are arranged in descending order of absolute change. Percentage
 change is returned as \code{NA} when the starting number of deaths is zero.
 
-A data frame containing the state or territory, number of deaths
+A data frame containing the SEIFA quintile, number of deaths
 in each specified year, absolute change in deaths, and percentage change in
 deaths. Results are arranged in descending order of absolute change. Percentage
 change is returned as \code{NA} when the starting number of deaths is zero.
@@ -36,12 +36,12 @@ relative to the number of deaths in the starting year.
 
 Calculates the absolute and percentage changes in the number of
 registered COVID-19 deaths between two specified years for each
-Australian state and territory. The percentage change is calculated
+SEIFA quintile in Australia. The percentage change is calculated
 relative to the number of deaths in the starting year.
 }
 \examples{
 # Compare COVID-19 deaths between 2020 and 2022
-summarise_seifa_deaths(year_from = 2020, year_to = 2022)
+calculate_death_change(year_from = 2020, year_to = 2022)
 
 # Compare COVID-19 deaths between 2020 and 2022
 summarise_seifa_deaths(year_from = 2020, year_to = 2022)
