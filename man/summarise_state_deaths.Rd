@@ -10,7 +10,7 @@ summarise_state_deaths(data = covid_state, years = NULL)
 \item{data}{A data frame containing \code{state}, \code{year}, and \code{deaths}.
 Defaults to the included \code{covid_state} dataset.}
 
-\item{years}{An integer vector specifiying the years to include in
+\item{years}{An integer vector specifying the years to include in
 the summary. Defaults to \code{NULL}, which includes all available years.}
 }
 \value{

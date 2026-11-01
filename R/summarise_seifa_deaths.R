@@ -7,7 +7,7 @@
 #' 
 #' @param data A data frame containing `SEIFA Quintile`, `year`, and `deaths`.
 #' Defaults to the included `covid_seifa` dataset.
-#' @param years An integer vector specifiying the years to include in 
+#' @param years An integer vector specifying the years to include in 
 #' the summary. Defaults to `NULL`, which includes all available years.
 #' @return A data frame containing each SEIFA Quintile and its 
 #' corresponding total number of COVID-19 deaths for the specified 
@@ -23,7 +23,7 @@
 #' # Summarise deaths across all available years
 #' summarise_seifa_deaths()
 #' 
-#' @importFrom dplyr filter group_by summarise arrange
+#' @importFrom dplyr filter group_by summarise arrange desc
 #' @export
 summarise_seifa_deaths <- function(data = covid_seifa, years = NULL) {
   if (!is.null(years)) {

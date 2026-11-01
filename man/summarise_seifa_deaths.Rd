@@ -10,7 +10,7 @@ summarise_seifa_deaths(data = covid_seifa, years = NULL)
 \item{data}{A data frame containing \verb{SEIFA Quintile}, \code{year}, and \code{deaths}.
 Defaults to the included \code{covid_seifa} dataset.}
 
-\item{years}{An integer vector specifiying the years to include in
+\item{years}{An integer vector specifying the years to include in
 the summary. Defaults to \code{NULL}, which includes all available years.}
 }
 \value{
