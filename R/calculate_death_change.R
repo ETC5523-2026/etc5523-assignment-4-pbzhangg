@@ -1,4 +1,4 @@
-#' Calculate Chines in COVID-19 deaths in Australia Between Two Years
+#' Calculate Changes in COVID-19 deaths in Australia Between Two Years
 #' 
 #' Calculates the absolute and percentage changes in the number of 
 #' registered COVID-19 deaths between two specified years for each 
