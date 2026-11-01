@@ -18,7 +18,7 @@
 #' # Compare COVID-19 deaths between 2020 and 2022
 #' calculate_death_change(year_from = 2020, year_to = 2022)
 #' 
-#' @importFrom dplyr filter group_by summarise arrange desc
+#' @importFrom dplyr filter arrange desc select rename left_join mutate
 #' @export
 
 calculate_death_change <- function(data = covid_state, year_from, year_to) {
@@ -61,13 +61,13 @@ calculate_death_change <- function(data = covid_state, year_from, year_to) {
   if (!(year_from %in% unique(data$year))) {
     stop(
       "year_from is not available in the dataset.", 
-      .call = FALSE)
+      call. = FALSE)
   }
 
   if (!(year_to %in% unique(data$year))) {
     stop(
       "year_to is not available in the dataset.", 
-      .call = FALSE)
+      call. = FALSE)
   }
 
   # Function Calculation
