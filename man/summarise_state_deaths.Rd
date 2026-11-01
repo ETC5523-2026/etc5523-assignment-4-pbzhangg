@@ -33,4 +33,5 @@ summarise_state_deaths(years = c(2020, 2021))
 
 # Summarise deaths across all available years
 summarise_state_deaths()
+
 }

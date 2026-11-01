@@ -22,13 +22,36 @@
 #' 
 #' # Summarise deaths across all available years
 #' summarise_state_deaths()
+#' 
 #' @importFrom dplyr filter group_by summarise arrange desc
 #' @export
+
 summarise_state_deaths <- function(data = covid_state, years = NULL) {
+  # Input Validation
+  ## Check required columns exist
+  required_columns <- c("state", "year", "deaths")
+  if (!all(required_columns %in% names(data))) {
+    stop("Data must contain `state`, `year` and `deaths` columns.", call. = FALSE)
+  }
+
+  ## Check that inputted year(s) are integer(s)
+  if (!is.null(years) || anyNA(years) ||
+    any(!is.finite(years)) || any(years != floor(years))) {
+    stop("years must be a vector of valid integer(s).", call. = FALSE)
+  }
+
+  ## Check that inputted years exist in the dataset
+  if (!all(years %in% data$year)) {
+    stop("One or more requested years are not available in the dataset.", call. = FALSE)
+  }
+
+  # Summarise Function
+  ## If years is not null, filter data for the specified years
   if (!is.null(years)) {
     data <- data |>
       filter(.data$year %in% years)
   }
+  ## Summarise and return the sum death counts for the specified years for each state or territory
   data |>
     group_by(.data$state) |>
     summarise(

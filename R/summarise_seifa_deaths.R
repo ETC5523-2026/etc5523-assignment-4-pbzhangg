@@ -25,11 +25,33 @@
 #' 
 #' @importFrom dplyr filter group_by summarise arrange desc
 #' @export
+
 summarise_seifa_deaths <- function(data = covid_seifa, years = NULL) {
+  # Input Validation
+  ## Check required columns exist
+  required_columns <- c("SEIFA Quintile", "year", "deaths")
+  if (!all(required_columns %in% names(data))) {
+    stop("Data must contain `SEIFA Quintile`, `year` and `deaths` columns.", call. = FALSE)
+  }
+
+  ## Check that inputted year(s) are integer(s)
+  if (!is.null(years) || anyNA(years) ||
+    any(!is.finite(years)) || any(years != floor(years))) {
+    stop("years must be a vector of valid integer(s).", call. = FALSE)
+  }
+
+  ## Check that inputted years exist in the dataset
+  if (!all(years %in% data$year)) {
+    stop("One or more requested years are not available in the dataset.", call. = FALSE)
+  }
+
+  # Summarise Function
+  ## If years is not null, filter data for the specified years
   if (!is.null(years)) {
     data <- data |>
       filter(.data$year %in% years)
   }
+  ## Summarise and return the sum death counts for the specified years for each SEIFA quintile
   data |>
     group_by(.data$`SEIFA Quintile`) |>
     summarise(
