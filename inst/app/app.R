@@ -68,6 +68,11 @@ ui <- navbarPage(
     "State & Territory",
     h3("COVID-19 Deaths by State and Territory"),
     p("Compare registered COVID-19 deaths across Australian states and territories from 2020 to 2024."),
+    p(
+      "Select a year to view the number of registered COVID-19 deaths across the eight states 
+      and territories. The bar chart compares death counts, while the map shows their geographical 
+      distribution. Hover over the bars or map regions for more information."
+    ),
 
     selectInput(
       inputId = "state_year",
@@ -90,7 +95,20 @@ ui <- navbarPage(
         h4("Geographical distribution"),
         leafletOutput("state_map", height = "450px")
       )
-    )
+    ),
+
+    p(
+      strong("How to interpret: "),
+      "The bar chart compares the number of registered COVID-19 deaths across states 
+      and territories in Australia, while the map highlights their geographical 
+      distribution. Larger bars and darker map regions indicate higher numbers of 
+      recorded deaths. These comparisons help identify geographical differences in 
+      COVID-19 mortality."
+    ),
+    p(
+      strong("Note: "),
+      "These are death counts, not population-adjusted mortality rates. Differences 
+      may partly reflect population size.")
   ),
 
   tabPanel(
