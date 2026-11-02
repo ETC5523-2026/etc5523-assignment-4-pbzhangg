@@ -1,11 +1,13 @@
 library(shiny)
 library(plotly)
+library(leaflet)
 library(ggplot2)
 library(dplyr)
 library(covidmortality)
 
 data("covid_monthly")
 data("covid_state")
+data("state_geom")
 
 ui <- navbarPage(
   title = "COVID-19 Mortality in Australia",
@@ -76,8 +78,19 @@ ui <- navbarPage(
 
     h4(textOutput("state_total")),
 
-    h4("Deaths by state and territory"),
-    plotlyOutput("state_plot", height = "450px")
+    fluidRow(
+      column(
+        width = 6,
+        h4("Deaths by state and territory"),
+        plotlyOutput("state_plot", height = "450px")
+      ),
+
+      column(
+        width = 6,
+        h4("Geographical distribution"),
+        leafletOutput("state_map", height = "450px")
+      )
+    )
   ),
 
   tabPanel(
@@ -215,6 +228,53 @@ server <- function(input, output, session) {
 
   })
 
+  # Join state mortality data to geographical boundaries
+  state_map_data <- reactive({
+
+    map_data <- state_geom |>
+      mutate(state_code = recode(
+        STE_NAME21,
+        "New South Wales" = "NSW",
+        "Victoria" = "Vic",
+        "Queensland" = "Qld",
+        "South Australia" = "SA",
+        "Western Australia" = "WA",
+        "Tasmania" = "Tas",
+        "Northern Territory" = "NT",
+        "Australian Capital Territory" = "ACT"
+      ))
+    
+    deaths_data <- state_data() |>
+      select(state_code = state, deaths)
+
+    map_data$deaths <- deaths_data$deaths[
+      match(map_data$state_code, deaths_data$state_code)
+    ]
+
+    map_data <- map_data[!is.na(map_data$deaths), ]
+    map_data <- sf::st_transform(map_data, 4326)
+
+    map_data
+  })
+
+  # Display interactive state mortality map
+  output$state_map <- renderLeaflet({
+    map_data <- state_map_data()
+
+    pal <- colorNumeric(palette = "YlOrRd", domain = c(0, 3800))
+
+    leaflet(map_data) |>
+      addTiles() |>
+      addPolygons(
+        fillColor = ~ifelse(deaths == 0, "white", pal(deaths)),
+        fillOpacity = 0.8,
+        color = "black",
+        weight = 2,
+        label = ~paste0(STE_NAME21, ": ", format(deaths, big.mark = ","), " deaths"),
+        highlightOptions = highlightOptions(weight = 3, color = "black", fillOpacity = 0.9, bringToFront = TRUE)
+      ) |>
+      addLegend(position = "bottomright", pal = pal, values = c(0, 3800), title = "Deaths", opacity = 0.8)
+  })
 
 }
 
