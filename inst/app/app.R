@@ -116,7 +116,12 @@ ui <- navbarPage(
     "SEIFA",
     h3("COVID-19 Deaths by Socioeconomic Disadvantage"),
     p("Explore differences in registered COVID-19 deaths across SEIFA quintiles."),
-    
+    p(
+    "Select a year to compare registered COVID-19 deaths across five different socioeconomic 
+    disadvantage (SEIFA) quintiles. Quintile 1 represents the most disadvantaged areas, while 
+    Quintile 5 represents the least disadvantaged areas. Hover over the bars to view the death counts."
+    ),
+
     selectInput(
       inputId = "seifa_year",
       label = "Select year:",
@@ -126,6 +131,17 @@ ui <- navbarPage(
 
     h4(textOutput("seifa_total")),
     plotlyOutput("seifa_plot", height = "450px"),
+    p(
+      strong("How to interpret: "),
+      "The chart compares registered COVID-19 death counts across five socioeconomic disadvantage (SEIFA) 
+      quintiles. It shows how recorded deaths were distributed across areas with different levels of 
+      socioeconomic disadvantage. Higher counts do not necessarily indicate higher individual mortality risk."
+    ),
+    p(
+      strong("Note: "),
+      "These are death counts, not population-adjusted mortality rates. Differences 
+      may partly reflect population size across SEIFA quintiles."
+    )
   )
 )
 
