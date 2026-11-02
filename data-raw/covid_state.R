@@ -23,6 +23,7 @@ covid_state <- states |>
     names_to = "year",
     values_to = "deaths"
   ) |>
+  filter(state != "Aus") |>
   mutate(year = as.integer(year))
 
 usethis::use_data(covid_state, overwrite = TRUE)
