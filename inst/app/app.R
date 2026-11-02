@@ -13,6 +13,14 @@ data("covid_seifa")
 ui <- navbarPage(
   title = "COVID-19 Mortality in Australia",
 
+  header = tags$head(
+      tags$link(
+        rel = "stylesheet",
+        type = "text/css",
+        href = "styles.css"
+      )
+    ),
+
   tabPanel(
     "Overview",
 
@@ -232,6 +240,7 @@ server <- function(input, output, session) {
 
   # Filter monthly data based on selected date range
   monthly_data <- reactive({
+    req(input$month_range)
 
     selected_positions <- match(
       input$month_range,
@@ -293,6 +302,7 @@ server <- function(input, output, session) {
 
   # Filter state data based on selected year
   state_data <- reactive({
+    req(input$state_year)
     summarise_state_deaths(years = as.integer(input$state_year))
   })
   
@@ -310,7 +320,7 @@ server <- function(input, output, session) {
 
   # Plot deaths by state and territory
   output$state_plot <- renderPlotly({
-
+    
     plot_data <- state_data() |>
       mutate(
         state = recode(
@@ -358,35 +368,40 @@ server <- function(input, output, session) {
 
   # Join state mortality data to geographical boundaries
   state_map_data <- reactive({
+    req(state_data())
+    req(nrow(state_data()) > 0)
 
-    map_data <- state_geom |>
-      mutate(state_code = recode(
-        STE_NAME21,
-        "New South Wales" = "NSW",
-        "Victoria" = "Vic",
-        "Queensland" = "Qld",
-        "South Australia" = "SA",
-        "Western Australia" = "WA",
-        "Tasmania" = "Tas",
-        "Northern Territory" = "NT",
-        "Australian Capital Territory" = "ACT"
-      ))
+    map_data <- sf::st_transform(state_geom, 4326)
+
+    state_names <- map_data$STE_NAME21
     
-    deaths_data <- state_data() |>
-      select(state_code = state, deaths)
+    state_code <- recode(
+      state_names,
+      "New South Wales" = "NSW",
+      "Victoria" = "Vic",
+      "Queensland" = "Qld",
+      "South Australia" = "SA",
+      "Western Australia" = "WA",
+      "Tasmania" = "Tas",
+      "Northern Territory" = "NT",
+      "Australian Capital Territory" = "ACT"
+    )
 
-    map_data$deaths <- deaths_data$deaths[
-      match(map_data$state_code, deaths_data$state_code)
-    ]
+    map_data$state_code <- state_code
+    deaths_df <- as.data.frame(state_data())
+    
+    matched <- match(map_data$state_code, deaths_df$state)
+    map_data$deaths <- deaths_df$deaths[matched]
 
-    map_data <- map_data[!is.na(map_data$deaths), ]
-    map_data <- sf::st_transform(map_data, 4326)
+    valid_rows <- !is.na(map_data$deaths)
+    map_data <- map_data[valid_rows, ]
 
     map_data
   })
 
   # Display interactive state mortality map
   output$state_map <- renderLeaflet({
+    req(state_map_data())
     map_data <- state_map_data()
 
     pal <- colorNumeric(palette = "YlOrRd", domain = c(0, 3800))
@@ -405,6 +420,8 @@ server <- function(input, output, session) {
   })
 
   state_change_data <- reactive({
+    req(input$state_year_from)
+    req(input$state_year_to)
 
     calculate_death_change(
       data = covid_state,
@@ -456,6 +473,7 @@ server <- function(input, output, session) {
   })
   
   state_share_data <- reactive({
+    req(input$state_share_year)
     calculate_death_share(data = covid_state, selected_year = as.integer(input$state_share_year))
   })
   
@@ -485,7 +503,10 @@ server <- function(input, output, session) {
   })
 
   # Filter SEIFA data based on selected year
-  seifa_data <- reactive({summarise_seifa_deaths(years = as.integer(input$seifa_year))})
+  seifa_data <- reactive({
+    req(input$seifa_year)
+    summarise_seifa_deaths(years = as.integer(input$seifa_year))
+  })
 
   # Display total deaths across SEIFA quintiles
   output$seifa_total <- renderText({

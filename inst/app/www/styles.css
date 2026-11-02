@@ -1,0 +1,106 @@
+:root {
+  --primary: #28536B;
+  --primary-light: #3B6B83;
+  --secondary: #F4A261;
+  --foreground: #263238;
+  --border: #D5DDE3;
+  --white: #FFFFFF;
+}
+
+body {
+  background-color: var(--white);
+  color: var(--foreground);
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.tab-content {
+  padding: 25px 30px;
+}
+
+
+.navbar {
+  background-color: var(--primary);
+  border: none;
+  border-radius: 0;
+}
+
+.navbar .navbar-brand {
+  color: var(--white);
+  font-weight: bold;
+}
+
+.navbar .navbar-brand:hover {
+  color: var(--secondary);
+}
+
+.navbar .navbar-nav > li > a {
+  color: var(--white);
+  transition: background-color 0.2s ease;
+}
+
+.navbar .navbar-nav > li > a:hover,
+.navbar .navbar-nav > li > a:focus {
+  background-color: var(--secondary);
+  color: var(--foreground);
+}
+
+.navbar .navbar-nav > .active > a,
+.navbar .navbar-nav > .active > a:hover,
+.navbar .navbar-nav > .active > a:focus {
+  background-color: var(--primary-light);
+  color: var(--white);
+  font-weight: bold;
+}
+
+h3 {
+  color: var(--primary);
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+h4 {
+  color: var(--primary);
+  font-size: 19px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+
+p {
+  margin-bottom: 14px;
+}
+
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.form-control {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(40, 83, 107, 0.15);
+}
+
+details {
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 15px;
+}
+
+summary {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: bold;
+}
