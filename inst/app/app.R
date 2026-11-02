@@ -30,7 +30,10 @@ ui <- navbarPage(
 
     h4("Monthly Mortality Trends"),
     p("Explore monthly COVID-19 deaths in Australia from 2020 to 2024."),
-    p("Note: Monthly data are based on month of death occurrence. Only January is available for 2024."),
+    p(
+      "Use the date range slider to select the period you'd like to examine. 
+      The total death count and line chart will automatically update accordingly"
+    ),
 
     shinyWidgets::sliderTextInput(
       inputId = "month_range",
@@ -44,7 +47,18 @@ ui <- navbarPage(
 
     h4(textOutput("total_deaths")),
 
-    plotlyOutput("national_plot")
+    plotlyOutput("national_plot"),
+    p(
+      strong("How to interpret: "),
+      "The line chart shows how monthly COVID-19 deaths changed over time. 
+      Peaks indicate months with higher numbers of deaths, while decines indicate 
+      periods with fewer deaths. This helps identify changes in national mortality 
+      patterns in Australia between 2020 and 2024."
+    ),
+    p(
+      strong("Note: "), 
+      "Monthly data are based on month of death occurrence. Only January is available for 2024."
+    )
   ),
 
   tabPanel(
