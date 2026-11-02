@@ -35,9 +35,11 @@ summarise_seifa_deaths <- function(data = covid_seifa, years = NULL) {
   }
 
   ## Check that inputted year(s) are integer(s)
-  if (!is.null(years) || anyNA(years) ||
-    any(!is.finite(years)) || any(years != floor(years))) {
-    stop("years must be a vector of valid integer(s).", call. = FALSE)
+  if (!is.null(years)) {
+    if (!is.numeric(years) || anyNA(years) ||
+      any(!is.finite(years)) || any(years != floor(years))) {
+      stop("years must be a vector of valid integer(s).", call. = FALSE)
+    }
   }
 
   ## Check that inputted years exist in the dataset
