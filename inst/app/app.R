@@ -8,6 +8,7 @@ library(covidmortality)
 data("covid_monthly")
 data("covid_state")
 data("state_geom")
+data("covid_seifa")
 
 ui <- navbarPage(
   title = "COVID-19 Mortality in Australia",
@@ -114,7 +115,17 @@ ui <- navbarPage(
   tabPanel(
     "SEIFA",
     h3("COVID-19 Deaths by Socioeconomic Disadvantage"),
-    p("Explore differences in registered COVID-19 deaths across SEIFA quintiles.")
+    p("Explore differences in registered COVID-19 deaths across SEIFA quintiles."),
+    
+    selectInput(
+      inputId = "seifa_year",
+      label = "Select year:",
+      choices = 2020:2024,
+      selected = 2022
+    ),
+
+    h4(textOutput("seifa_total")),
+    plotlyOutput("seifa_plot", height = "450px"),
   )
 )
 
@@ -294,6 +305,48 @@ server <- function(input, output, session) {
       addLegend(position = "bottomright", pal = pal, values = c(0, 3800), title = "Deaths", opacity = 0.8)
   })
 
+  # Filter SEIFA data based on selected year
+  seifa_data <- reactive({summarise_seifa_deaths(years = as.integer(input$seifa_year))})
+
+  # Display total deaths across SEIFA quintiles
+  output$seifa_total <- renderText({
+
+    total <- sum(seifa_data()$deaths, na.rm = TRUE)
+
+    paste(
+      "Total registered deaths across SEIFA quintiles:",
+      format(total, big.mark = ",")
+    )
+  })
+  
+  # Plot deaths by SEIFA quintile
+  output$seifa_plot <- renderPlotly({
+
+    plot_data <- seifa_data()
+
+    p <- ggplot(
+      plot_data,
+      aes(x = `SEIFA Quintile`, y = deaths,
+        text = paste0(
+          "SEIFA Quintile: ", `SEIFA Quintile`,
+          "<br>Deaths: ", format(deaths, big.mark = ",")
+        )
+      )
+    ) +
+      geom_col(fill = "#FC4E2AFF") +
+      scale_y_continuous(labels = scales::comma) +
+      labs(title = paste("COVID-19 Deaths by SEIFA Quintile in", input$seifa_year),
+          x = "SEIFA Quintile",
+          y = "Number of registered deaths"
+      ) +
+      theme_minimal() +
+      theme(
+        plot.title = element_text(face = "bold"),
+        axis.text.x = element_text(angle = 20, hjust = 1)
+      )
+    
+    ggplotly(p, tooltip = "text")
+  })
 }
 
 shinyApp(ui, server)
