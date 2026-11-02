@@ -18,7 +18,7 @@
 #' # Compare COVID-19 deaths between 2020 and 2022
 #' calculate_seifa_death_change(year_from = 2020, year_to = 2022)
 #' 
-#' @importFrom dplyr filter arrange desc select rename left_join mutate
+#' @importFrom dplyr filter arrange desc select rename left_join mutate if_else
 #' @export
 
 calculate_seifa_death_change <- function(data = covid_seifa, year_from, year_to) {
