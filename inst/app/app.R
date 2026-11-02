@@ -5,6 +5,7 @@ library(dplyr)
 library(covidmortality)
 
 data("covid_monthly")
+data("covid_state")
 
 ui <- navbarPage(
   title = "COVID-19 Mortality in Australia",
@@ -64,7 +65,19 @@ ui <- navbarPage(
   tabPanel(
     "State & Territory",
     h3("COVID-19 Deaths by State and Territory"),
-    p("Compare registered COVID-19 deaths across Australian states and territories.")
+    p("Compare registered COVID-19 deaths across Australian states and territories from 2020 to 2024."),
+
+    selectInput(
+      inputId = "state_year",
+      label = "Select year:",
+      choices = 2020:2024,
+      selected = 2022
+    ),
+
+    h4(textOutput("state_total")),
+
+    h4("Deaths by state and territory"),
+    plotlyOutput("state_plot", height = "450px")
   ),
 
   tabPanel(
@@ -136,6 +149,72 @@ server <- function(input, output, session) {
 
     ggplotly(p, tooltip = "text")
   })
+
+  # Filter state data based on selected year
+  state_data <- reactive({
+    summarise_state_deaths(years = as.integer(input$state_year))
+  })
+
+  # Display state deaths
+  output$state_total <- renderText({
+
+    total <- sum(state_data()$deaths, na.rm = TRUE)
+
+    paste(
+      "Total registered deaths in Australia:",
+      format(total, big.mark = ",")
+    )
+
+  })
+
+  # Plot deaths by state and territory
+  output$state_plot <- renderPlotly({
+
+    plot_data <- state_data() |>
+      mutate(
+        state = recode(
+          state,
+          NSW = "New South Wales",
+          Vic = "Victoria",
+          Qld = "Queensland",
+          SA = "South Australia",
+          WA = "Western Australia",
+          Tas = "Tasmania",
+          NT = "Northern Territory",
+          ACT = "Australian Capital Territory"
+        )
+      )
+
+    p <- ggplot(
+      plot_data,
+      aes(x = reorder(state, deaths), y = deaths,
+        text = paste0("State/Territory: ", state,
+          "<br>Deaths: ", format(deaths, big.mark = ",")
+        )
+      )
+    ) +
+      geom_col(fill = "#FC4E2AFF") +
+      coord_flip() +
+      scale_y_continuous(
+        labels = scales::comma
+      ) +
+      labs(
+        title = paste(
+          "COVID-19 Deaths by State and Territory in",
+          input$state_year
+        ),
+        x = NULL,
+        y = "Number of registered deaths"
+      ) +
+      theme_minimal() +
+      theme(
+        plot.title = element_text(face = "bold", hjust = 0)
+      )
+    
+    ggplotly(p, tooltip = "text")
+
+  })
+
 
 }
 
