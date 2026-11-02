@@ -109,7 +109,89 @@ ui <- navbarPage(
     p(
       strong("Note: "),
       "These are death counts, not population-adjusted mortality rates. Differences 
-      may partly reflect population size.")
+      may partly reflect population size."),
+    
+    hr(),
+
+    fluidRow(
+      column(
+        12, 
+        tags$details(
+          tags$summary(h4("Additional Analysis (Click to Expand)")),
+          br(),
+          p(
+            "Choose an analysis to explore changes in death counts between two years or 
+            the distribution of deaths across states and territories."
+          ),
+          selectInput(
+            "state_analysis",
+            "Select analysis:",
+            choices = c(
+              "Change in deaths between two years" = "change",
+              "Distribution of deaths across states and territories" = "share"
+            ),
+            selected = "change"
+          ),
+
+          conditionalPanel(
+            condition = "input.state_analysis == 'change'",
+            p("Select a starting year and an ending year to compare changes in death counts."),
+            fluidRow(
+              column(
+                6,
+                selectInput(
+                  "state_year_from",
+                  "From year:",
+                  choices = 2020:2024,
+                  selected = 2020
+                )
+              ),
+              column(
+                6,
+                selectInput(
+                  "state_year_to",
+                  "To year:",
+                  choices = 2020:2024,
+                  selected = 2022
+                )
+              )
+            ),
+            div(
+              style = "height: 450px; display: flex; align-items: center; justify-content: center;",
+              uiOutput("state_change_validation")
+            ),
+            p(
+              strong("How to interpret:"),
+              "Positive values indicate an increase in registered deaths between the 
+              selected years, while negative values indicate a decrease. The percentage 
+              change shows the relative size of the change compared with the starting year."
+            )
+          ),
+
+          conditionalPanel(
+            condition = "input.state_analysis == 'share'",
+            p(
+              "Select a year to examine each state's or territory's percentage 
+              contribution to total registered deaths."),
+
+            selectInput(
+              "state_share_year",
+              "Select year:",
+              choices = 2020:2024,
+              selected = 2022
+            ),
+
+            plotlyOutput("state_share_plot", height = "450px"),
+            p(
+              strong("How to interpret:"),
+              "Each bar represents the percentage of total registered deaths attributed 
+              to a particular state or territory in the selected year. The shares across 
+              all states and territories sum to 100%."
+            )
+          )
+        )
+      )
+    )
   ),
 
   tabPanel(
@@ -144,6 +226,7 @@ ui <- navbarPage(
     )
   )
 )
+
 
 server <- function(input, output, session) {
 
@@ -212,7 +295,7 @@ server <- function(input, output, session) {
   state_data <- reactive({
     summarise_state_deaths(years = as.integer(input$state_year))
   })
-
+  
   # Display state deaths
   output$state_total <- renderText({
 
@@ -319,6 +402,86 @@ server <- function(input, output, session) {
         highlightOptions = highlightOptions(weight = 3, color = "black", fillOpacity = 0.9, bringToFront = TRUE)
       ) |>
       addLegend(position = "bottomright", pal = pal, values = c(0, 3800), title = "Deaths", opacity = 0.8)
+  })
+
+  state_change_data <- reactive({
+
+    calculate_death_change(
+      data = covid_state,
+      year_from = as.integer(input$state_year_from),
+      year_to = as.integer(input$state_year_to)
+    )
+  })
+
+  output$state_change_validation <- renderUI({
+    if (as.integer(input$state_year_to) < as.integer(input$state_year_from)) {
+      div(
+        align = "center", 
+        h3("Please select an ending year later than the starting year.")
+      )
+    } else if (as.integer(input$state_year_to) == as.integer(input$state_year_from)) {
+      div(
+        align = "center", 
+        h3("The starting year and ending year cannot be the same for this comparison. 
+           Please select 2 different years.")
+      )
+    } else {
+      plotlyOutput("state_change_plot", height = "450px")
+    }
+  })
+  
+  output$state_change_plot <- renderPlotly({
+    plot_data <- state_change_data()
+
+    p <- ggplot(plot_data,
+      aes(x = reorder(group, absolute_change), y = absolute_change,
+        text = paste0(
+          "State/Territory: ", group, 
+          "<br>Absolute change: ", format(absolute_change, big.mark = ","),
+          "<br>Percentage change: ", round(percent_change, 1), "%"
+        )
+      )
+    ) +
+      geom_col(fill = "#FC4E2AFF") +
+      coord_flip() +
+      scale_y_continuous(labels = scales::comma) +
+      labs(
+        title = paste("Change in COVID-19 Deaths:", input$state_year_from, "to", input$state_year_to),
+        x = "State or Territory",
+        y = "Change in registered deaths"
+      ) +
+      theme_minimal()
+
+    ggplotly(p, tooltip = "text")
+  })
+  
+  state_share_data <- reactive({
+    calculate_death_share(data = covid_state, selected_year = as.integer(input$state_share_year))
+  })
+  
+  output$state_share_plot <- renderPlotly({
+    plot_data <- state_share_data()
+
+    p <- ggplot(plot_data,
+      aes(x = reorder(group, death_share), y = death_share,
+          text = paste0(
+            "State/Territory: ", group,
+            "<br>Deaths: ", format(deaths, big.mark = ","),
+            "<br>Share: ", round(death_share, 1), "%"
+          )
+      )
+    ) +
+      geom_col(fill = "#FC4E2AFF") +
+      coord_flip() +
+      scale_y_continuous(labels = scales::label_percent(scale = 1)) +
+      labs(
+        title = paste("Share of COVID-19 Deaths by State/Territory in", input$state_share_year),
+        x = "State or Territory",
+        y = "Percentage of registered deaths"
+      ) +
+      theme_minimal()
+
+    ggplotly(p, tooltip = "text")
   })
 
   # Filter SEIFA data based on selected year
