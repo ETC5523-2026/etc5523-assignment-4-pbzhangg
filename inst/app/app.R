@@ -11,9 +11,26 @@ ui <- navbarPage(
 
   tabPanel(
     "Overview",
+
     h3("COVID-19 Mortality Trends in Australia"),
+
+    h4("About this app"),
+    p(
+      "This app is designed for public health researchers, policymakers, and the general public
+      interested in understanding COVID-19 mortality patterns in Australia."
+    ),
+    p(
+      strong("Research question: "), 
+      "How did COVID-19 mortality patterns in Australia change over time, and how did these patterns
+      differ across states and territories and socioeconomic disadvantage (SEIFA) quintile groups between 
+      2020 and 2024?"
+    ),
+
+    hr(),
+
+    h4("Monthly Mortality Trends"),
     p("Explore monthly COVID-19 deaths in Australia from 2020 to 2024."),
-    p("Note: Monthy data are based on month of death occurrence. Only January is available for 2024."),
+    p("Note: Monthly data are based on month of death occurrence. Only January is available for 2024."),
 
     shinyWidgets::sliderTextInput(
       inputId = "month_range",
@@ -45,21 +62,21 @@ ui <- navbarPage(
 
 server <- function(input, output, session) {
 
-  # Filter COVID-19 deaths based on selected years
+  # Filter monthly data based on selected date range
   monthly_data <- reactive({
 
-  selected_positions <- match(
-    input$month_range,
-    format(covid_monthly$date, "%b %Y")
-  )
+    selected_positions <- match(
+      input$month_range,
+      format(covid_monthly$date, "%b %Y")
+    )
+
     covid_monthly |>
-      slice(
-        selected_positions[1]:selected_positions[2]
-      )
+      slice(selected_positions[1]:selected_positions[2])
   })
 
   # Display total deaths over selected period
   output$total_deaths <- renderText({
+
     total <- sum(monthly_data()$deaths, na.rm = TRUE)
 
     paste(
@@ -68,28 +85,30 @@ server <- function(input, output, session) {
     )
   })
 
-  # Plot national deaths
+  # Plot monthly national deaths
   output$national_plot <- renderPlotly({
 
     p <- ggplot(
-          monthly_data(), 
-          aes(
-            x = date, 
-            y = deaths, 
-            group = 1,
-            text = paste0(
-              "Month: ", format(date, "%B %Y"),
-              "<br>Deaths: ", format(deaths, big.mark = ",")
-            )
-          )
-        ) +
+      monthly_data(),
+      aes(
+        x = date,
+        y = deaths,
+        group = 1,
+        text = paste0(
+          "Month: ", format(date, "%B %Y"),
+          "<br>Deaths: ", format(deaths, big.mark = ",")
+        )
+      )
+    ) +
       geom_line(linewidth = 1) +
       geom_point(size = 2) +
       scale_x_date(
-        date_labels = "%b %Y", 
+        date_labels = "%b %Y",
         date_breaks = "3 months"
       ) +
-      scale_y_continuous(labels = scales::comma) +
+      scale_y_continuous(
+        labels = scales::comma
+      ) +
       labs(
         title = "Monthly COVID-19 Deaths in Australia",
         x = "Month",
@@ -100,8 +119,10 @@ server <- function(input, output, session) {
         plot.title = element_text(face = "bold"),
         axis.text.x = element_text(angle = 45, hjust = 1)
       )
+
     ggplotly(p, tooltip = "text")
   })
+
 }
 
 shinyApp(ui, server)
