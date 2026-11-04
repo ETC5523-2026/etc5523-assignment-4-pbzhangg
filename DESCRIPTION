@@ -22,4 +22,7 @@ Suggests:
     leaflet,
     scales,
     shinyWidgets,
-    sf
+    sf,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
