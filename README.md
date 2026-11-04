@@ -1,1 +1,34 @@
-# etc5523-assignment-4-pbzhangg
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# covidmortality
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+The `covidmortality` package explores patterns in COVID-19 mortality in
+Australia between 2020 and 2024. It examines how registered COVID-19
+deaths changed over time and how these patterns varied across different
+states and territories and socioeconomic disadvantage groups.
+
+The package provides cleaned datasets and analytical functions to
+support the exploration and comparison of COVID-19 mortality patterns
+across Australia.
+
+## Package overview
+
+The `covidmortality` package includes:
+
+- **Data**: Cleaned datasets on monthly national COVID-19 deaths, annual
+  deaths by state and territory, and annual deaths by socioeconomic
+  status (SEIFA), as well as geographical boundaries for mapping.
+- **Analysis functions**: Functions to summarise mortality counts and
+  calculate changes in deaths between selected years.
+- **Interactive visualisation**: A Shiny application for exploring
+  temporal, geographical and socioeconomic patterns in COVID-19
+  mortality.
+
+The goal of `covidmortality` is to make the data accessible and
+facilitate exploratory analysis of COVID-19 mortality patterns in
+Australia.
