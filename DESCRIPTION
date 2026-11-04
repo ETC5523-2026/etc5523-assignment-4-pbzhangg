@@ -14,9 +14,9 @@ Depends:
 LazyData: true
 LazyDataCompression: xz
 Imports: 
-    dplyr
+    dplyr,
+    shiny
 Suggests:
-    shiny,
     plotly,
     ggplot2,
     leaflet,
