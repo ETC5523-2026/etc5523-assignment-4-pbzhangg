@@ -45,3 +45,44 @@ After installing the package, launch the interactive application using:
 ``` r
 covidmortality::run_app()
 ```
+
+## Data
+The package includes four datasets covering COVID-19 mortality in Australia between 2020 and 2024.
+
+### covid_state
+COVID-19 deaths by state and territory of registration.
+
+- `state`: Australian state or territory abbreviation.
+- `year`: Year of death registration (2020-2024).
+- `deaths`: Number of registered deaths due to COVID-19.
+
+Source: Australian Bureau of Statistics (ABS), [COVID-19 Mortality in Australia: Deaths registered until 31 January 2024.](https://www.abs.gov.au/articles/covid-19-mortality-australia-deaths-registered-until-31-january-2024#deaths-due-to-covid-19-state-of-registration)
+
+### covid_seifa
+COVID-19 deaths by quintile of socioeconomic disadvantage, based on the ABS Socio-Economic Indexes for Areas (SEIFA).
+
+- `SEIFA Quintile`: Socioeconomic disadvantage quintile, ranging from 1 (most disadvantaged) to 5 (least disadvantaged).
+- `year`: Year of death registration (2020-2024).
+- `deaths`: Number of registered deaths due to COVID-19.
+
+Source: Australian Bureau of Statistics (ABS), [COVID-19 Mortality in Australia: Deaths registered until 31 January 2024.](https://www.abs.gov.au/articles/covid-19-mortality-australia-deaths-registered-until-31-january-2024#deaths-due-to-covid-19-socio-economic-status-seifa-)
+
+### state_geom
+Geographical boundaries for Australian states and territories, used to support spatial visualisation of COVID-19 mortality patterns.
+
+- `STE_CODE21`: ABS state and territory code.
+- `STE_NAME21`: Full state or territory name.
+- `AREASQKM21`: Total area of given state/territory in square kilometres.
+- `geometry`: Spatial polygon geometry.
+
+Source: Australian Bureau of Statistics (ABS), [Australian Statistical Geography Standard (ASGS) Edition 3: Digital Boundary Files.](https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/access-and-downloads/digital-boundary-files#downloads-for-gda2020-digital-boundary-files)
+
+### covid_monthly
+Monthly counts of deaths due to COVID-19 in Australia, organised by month of death occurrence from January 2020 to January 2024.
+
+- `date`: Date representing the first day of each month.
+- `year`: Year of death occurrence.
+- `month`: Three-letter abbreviation of the month.
+- `deaths`: Number of deaths due to COVID-19.
+
+Source: Australian Bureau of Statistics (ABS), [COVID-19 Mortality in Australia: Deaths registered until 31 January 2024.](https://www.abs.gov.au/articles/covid-19-mortality-australia-deaths-registered-until-31-january-2024#deaths-due-to-covid-19-year-and-month-of-occurrence)
