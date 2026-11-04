@@ -76,7 +76,11 @@ ui <- navbarPage(
   tabPanel(
     "State & Territory",
     h3("COVID-19 Deaths by State and Territory"),
-    p("Compare registered COVID-19 deaths across Australian states and territories from 2020 to 2024."),
+    p(
+      strong("Research question: "), 
+      "How did registered COVID-19 deaths vary across Australia's states and territories between 2020 and 2024?"
+    ),
+    p("Explore how death counts differ across jurisdictions over the selected period."),
     p(
       "Select a year to view the number of registered COVID-19 deaths across the eight states 
       and territories. The bar chart compares death counts, while the map shows their geographical 
@@ -205,6 +209,10 @@ ui <- navbarPage(
   tabPanel(
     "SEIFA",
     h3("COVID-19 Deaths by Socioeconomic Disadvantage"),
+    p(
+      strong("Research question: "), 
+      "How did registered COVID-19 deaths differ across socioeconomic disadvantage quintiles between 2020 and 2024?"
+    ),
     p("Explore differences in registered COVID-19 deaths across SEIFA quintiles."),
     p(
     "Select a year to compare registered COVID-19 deaths across five different socioeconomic 
