@@ -33,6 +33,12 @@ The goal of `covidmortality` is to make the data accessible and
 facilitate exploratory analysis of COVID-19 mortality patterns in
 Australia.
 
+## Package Website
+
+Visit the [covidmortality package
+webstie](https://etc5523-2026.github.io/etc5523-assignment-4-pbzhangg/)
+for documentation, function references, and the vignette.
+
 ## Installation
 
 You can install the development version of covidmortality from
