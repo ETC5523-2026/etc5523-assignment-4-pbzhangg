@@ -111,3 +111,79 @@ month of death occurrence from January 2020 to January 2024.
 Source: Australian Bureau of Statistics (ABS), [COVID-19 Mortality in
 Australia: Deaths registered until 31 January
 2024.](https://www.abs.gov.au/articles/covid-19-mortality-australia-deaths-registered-until-31-january-2024#deaths-due-to-covid-19-year-and-month-of-occurrence)
+
+### Data considerations
+
+The mortality datasets contain death counts rather than
+population-adjusted mortality rates. Therefore, differences in counts
+should be interpreted with consideration of population size. In
+particular, comparisons between SEIFA quintiles do not directly measure
+individual mortality risk.
+
+The ABS data are provisional and may be subject to revision as
+additional death registrations are received. The state and SEIFA
+datasets classify deaths by year of registration, whereas the monthly
+dataset records deaths by month of occurrence. Consequently, these
+datasets use different time bases and should not be directly compared
+without considering this distinction.
+
+## Examples
+
+Load the package to access its datasets and analytical functions:
+
+``` r
+library(covidmortality)
+
+# Summarise deaths for selected years by state/territory
+summarise_state_deaths(years = 2022:2023)
+#> # A tibble: 8 × 2
+#>   state deaths
+#>   <chr>  <dbl>
+#> 1 NSW     5300
+#> 2 Vic     4170
+#> 3 Qld     2457
+#> 4 SA      1216
+#> 5 WA      1080
+#> 6 Tas      317
+#> 7 ACT      219
+#> 8 NT        67
+
+# Summarise deaths for selected years by SEIFA quintiles
+summarise_seifa_deaths(years = 2022:2023)
+#> # A tibble: 5 × 2
+#>   `SEIFA Quintile`        deaths
+#>   <fct>                    <dbl>
+#> 1 1 (most disadvantaged)    4428
+#> 2 2                         3547
+#> 3 3                         2764
+#> 4 4                         2285
+#> 5 5 (least disadvantaged)   1662
+
+# Compare deaths between 2020 and 2022 for all states and territories
+calculate_death_change(year_from = 2020, year_to = 2022)
+#> # A tibble: 8 × 6
+#>   group deaths_from deaths_to absolute_change percent_change group_type
+#>   <chr>       <dbl>     <dbl>           <dbl>          <dbl> <chr>     
+#> 1 NSW            63      3733            3670          5825. state     
+#> 2 Vic           805      2986            2181           271. state     
+#> 3 Qld             4      1691            1687         42175  state     
+#> 4 SA              4       845             841         21025  state     
+#> 5 WA             11       639             628          5709. state     
+#> 6 Tas            17       200             183          1076. state     
+#> 7 ACT             2       155             153          7650  state     
+#> 8 NT              0        52              52            NA  state
+
+# Calculate distribution of deaths by state for a given year
+calculate_death_share(selected_year = 2022)
+#> # A tibble: 8 × 5
+#>   group deaths total_deaths death_share group_type
+#>   <chr>  <dbl>        <dbl>       <dbl> <chr>     
+#> 1 NSW     3733        10301      36.2   state     
+#> 2 Vic     2986        10301      29.0   state     
+#> 3 Qld     1691        10301      16.4   state     
+#> 4 SA       845        10301       8.20  state     
+#> 5 WA       639        10301       6.20  state     
+#> 6 Tas      200        10301       1.94  state     
+#> 7 ACT      155        10301       1.50  state     
+#> 8 NT        52        10301       0.505 state
+```

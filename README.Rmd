@@ -86,3 +86,29 @@ Monthly counts of deaths due to COVID-19 in Australia, organised by month of dea
 - `deaths`: Number of deaths due to COVID-19.
 
 Source: Australian Bureau of Statistics (ABS), [COVID-19 Mortality in Australia: Deaths registered until 31 January 2024.](https://www.abs.gov.au/articles/covid-19-mortality-australia-deaths-registered-until-31-january-2024#deaths-due-to-covid-19-year-and-month-of-occurrence)
+
+### Data considerations
+The mortality datasets contain death counts rather than population-adjusted mortality rates. Therefore, differences in counts should be interpreted with consideration of population size. In particular, comparisons between SEIFA quintiles do not directly measure individual mortality risk.
+
+The ABS data are provisional and may be subject to revision as additional death registrations are received. The state and SEIFA datasets classify deaths by year of registration, whereas the monthly dataset records deaths by month of occurrence. Consequently, these datasets use different time bases and should not be directly compared without considering this distinction.
+
+## Examples
+
+Load the package to access its datasets and analytical functions:
+
+```{r example}
+library(covidmortality)
+
+# Summarise deaths for selected years by state/territory
+summarise_state_deaths(years = 2022:2023)
+
+# Summarise deaths for selected years by SEIFA quintiles
+summarise_seifa_deaths(years = 2022:2023)
+
+# Compare deaths between 2020 and 2022 for all states and territories
+calculate_death_change(year_from = 2020, year_to = 2022)
+
+# Calculate distribution of deaths by state for a given year
+calculate_death_share(selected_year = 2022)
+```
+
