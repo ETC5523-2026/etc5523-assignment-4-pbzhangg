@@ -96,7 +96,7 @@ The ABS data are provisional and may be subject to revision as additional death 
 
 Load the package to access its datasets and analytical functions:
 
-```{r example}
+```{r example, results = FALSE}
 library(covidmortality)
 
 # Summarise deaths for selected years by state/territory
@@ -105,10 +105,12 @@ summarise_state_deaths(years = 2022:2023)
 # Summarise deaths for selected years by SEIFA quintiles
 summarise_seifa_deaths(years = 2022:2023)
 
-# Compare deaths between 2020 and 2022 for all states and territories
-calculate_death_change(year_from = 2020, year_to = 2022)
-
 # Calculate distribution of deaths by state for a given year
 calculate_death_share(selected_year = 2022)
 ```
-
+```{r}
+# Compare deaths between 2020 and 2022 for all states and territories
+calculate_death_change(year_from = 2020, year_to = 2022) |>
+  dplyr::slice_max(absolute_change, n = 3) |>
+  dplyr::select(-group_type)
+```
