@@ -160,56 +160,23 @@
 <span></span>
 <span><span class="co"># Summarise deaths for selected years by state/territory</span></span>
 <span><span class="fu"><a href="reference/summarise_state_deaths.html">summarise_state_deaths</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2023</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 8 × 2</span></span>
-<span><span class="co">#&gt;   state deaths</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 NSW     5300</span></span>
-<span><span class="co">#&gt; 2 Vic     4170</span></span>
-<span><span class="co">#&gt; 3 Qld     2457</span></span>
-<span><span class="co">#&gt; 4 SA      1216</span></span>
-<span><span class="co">#&gt; 5 WA      1080</span></span>
-<span><span class="co">#&gt; 6 Tas      317</span></span>
-<span><span class="co">#&gt; 7 ACT      219</span></span>
-<span><span class="co">#&gt; 8 NT        67</span></span>
 <span></span>
 <span><span class="co"># Summarise deaths for selected years by SEIFA quintiles</span></span>
 <span><span class="fu"><a href="reference/summarise_seifa_deaths.html">summarise_seifa_deaths</a></span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2023</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 5 × 2</span></span>
-<span><span class="co">#&gt;   `SEIFA Quintile`        deaths</span></span>
-<span><span class="co">#&gt;   &lt;fct&gt;                    &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 1 (most disadvantaged)    4428</span></span>
-<span><span class="co">#&gt; 2 2                         3547</span></span>
-<span><span class="co">#&gt; 3 3                         2764</span></span>
-<span><span class="co">#&gt; 4 4                         2285</span></span>
-<span><span class="co">#&gt; 5 5 (least disadvantaged)   1662</span></span>
-<span></span>
-<span><span class="co"># Compare deaths between 2020 and 2022 for all states and territories</span></span>
-<span><span class="fu"><a href="reference/calculate_death_change.html">calculate_death_change</a></span><span class="op">(</span>year_from <span class="op">=</span> <span class="fl">2020</span>, year_to <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 8 × 6</span></span>
-<span><span class="co">#&gt;   group deaths_from deaths_to absolute_change percent_change group_type</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;     </span></span>
-<span><span class="co">#&gt; 1 NSW            63      3733            3670          5825. state     </span></span>
-<span><span class="co">#&gt; 2 Vic           805      2986            2181           271. state     </span></span>
-<span><span class="co">#&gt; 3 Qld             4      1691            1687         42175  state     </span></span>
-<span><span class="co">#&gt; 4 SA              4       845             841         21025  state     </span></span>
-<span><span class="co">#&gt; 5 WA             11       639             628          5709. state     </span></span>
-<span><span class="co">#&gt; 6 Tas            17       200             183          1076. state     </span></span>
-<span><span class="co">#&gt; 7 ACT             2       155             153          7650  state     </span></span>
-<span><span class="co">#&gt; 8 NT              0        52              52            NA  state</span></span>
 <span></span>
 <span><span class="co"># Calculate distribution of deaths by state for a given year</span></span>
-<span><span class="fu"><a href="reference/calculate_death_share.html">calculate_death_share</a></span><span class="op">(</span>selected_year <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 8 × 5</span></span>
-<span><span class="co">#&gt;   group deaths total_deaths death_share group_type</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;     </span></span>
-<span><span class="co">#&gt; 1 NSW     3733        10301      36.2   state     </span></span>
-<span><span class="co">#&gt; 2 Vic     2986        10301      29.0   state     </span></span>
-<span><span class="co">#&gt; 3 Qld     1691        10301      16.4   state     </span></span>
-<span><span class="co">#&gt; 4 SA       845        10301       8.20  state     </span></span>
-<span><span class="co">#&gt; 5 WA       639        10301       6.20  state     </span></span>
-<span><span class="co">#&gt; 6 Tas      200        10301       1.94  state     </span></span>
-<span><span class="co">#&gt; 7 ACT      155        10301       1.50  state     </span></span>
-<span><span class="co">#&gt; 8 NT        52        10301       0.505 state</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/calculate_death_share.html">calculate_death_share</a></span><span class="op">(</span>selected_year <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Compare deaths between 2020 and 2022 for all states and territories</span></span>
+<span><span class="fu"><a href="reference/calculate_death_change.html">calculate_death_change</a></span><span class="op">(</span>year_from <span class="op">=</span> <span class="fl">2020</span>, year_to <span class="op">=</span> <span class="fl">2022</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_max</a></span><span class="op">(</span><span class="va">absolute_change</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">group_type</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span><span class="co">#&gt;   group deaths_from deaths_to absolute_change percent_change</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 NSW            63      3733            3670          5825.</span></span>
+<span><span class="co">#&gt; 2 Vic           805      2986            2181           271.</span></span>
+<span><span class="co">#&gt; 3 Qld             4      1691            1687         42175</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
