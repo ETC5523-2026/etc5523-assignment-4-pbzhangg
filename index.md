@@ -153,3 +153,15 @@ calculate_death_change(year_from = 2020, year_to = 2022) |>
 #> 2 Vic           805      2986            2181           271.
 #> 3 Qld             4      1691            1687         42175
 ```
+
+## AI-Use Declaration
+
+I used ChatGPT to support aspects of this assignment, including data
+cleaning (CSV import issues, renaming columns with missing names, and
+converting numerical data to the appropriate type when a comma was
+present), dealing with errors (such as resolving map rendering issues
+and investigating possible causes for commands that took a long time to
+execute), address warnings and notes from devtools::check() (global
+variable bindings) and suggestions for CSS styling of the Shiny
+application. I checked and revised all generated code and text before
+integrating them into my assignment.
