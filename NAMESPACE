@@ -2,6 +2,7 @@
 
 export(calculate_death_change)
 export(calculate_death_share)
+export(run_app)
 export(summarise_seifa_deaths)
 export(summarise_state_deaths)
 importFrom(dplyr,
