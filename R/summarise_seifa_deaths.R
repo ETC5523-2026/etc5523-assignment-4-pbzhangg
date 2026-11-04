@@ -51,14 +51,14 @@ summarise_seifa_deaths <- function(data = covid_seifa, years = NULL) {
   ## If years is not null, filter data for the specified years
   if (!is.null(years)) {
     data <- data |>
-      filter(.data$year %in% years)
+      filter(year %in% years)
   }
   ## Summarise and return the sum death counts for the specified years for each SEIFA quintile
   data |>
-    group_by(.data$`SEIFA Quintile`) |>
+    group_by(`SEIFA Quintile`) |>
     summarise(
-      deaths = sum(.data$deaths, na.rm = TRUE),
+      deaths = sum(deaths, na.rm = TRUE),
       .groups = "drop"
     ) |>
-    arrange(desc(.data$deaths))
+    arrange(desc(deaths))
 }
