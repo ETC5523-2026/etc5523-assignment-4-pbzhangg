@@ -8,5 +8,5 @@
 #' 
 #' @examples
 #' data(state_geom)
-#' print(state_geom) 
+#' nrow(state_geom)
 "state_geom"
