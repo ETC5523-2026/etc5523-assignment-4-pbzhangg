@@ -17,3 +17,83 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(covidmortality)
 ```
+
+# Introduction
+How did COVID-19 mortality in Australia change between 2020 and 2024? Did mortality patterns differ across states and territories or socioeconomic disadvantage groups?
+
+The `covidmortality` package provides an interactive Shiny application to explore these questions. This vignette demonstrates how to install the package, launch the application, navigate its features, and interpret the resulting visualisations.
+
+# Installing the package
+The development version of `covidmortality` can be installed from GitHub using remotes:
+```{r, eval = FALSE}
+install.packages("remotes")
+remotes::install_github("ETC5523-2026/etc5523-assignment-4-pbzhangg")
+```
+
+# Launching the application
+After installation, load the package and launch the Shiny application:
+```{r, eval = FALSE}
+library(covidmortality)
+
+run_app()
+```
+
+The Shiny application contains three tabs: Overview, State & Territory, and SEIFA. Each tab provides different perspectives on COVID-19 mortality patterns in Australia. The application is interactive. Users can change the selected year or date range using the available controls, and the corresponding summary values and visualisations update automatically. Hovering over charts and map regions provides additional information about the underlying death counts.
+
+# Exploring national mortality trends
+The Overview tab allows users to examine monthly COVID-19 deaths across Australia from January 2020 to January 2024.
+
+Use the date range slider to select the period of interest. Both the total death count and line chart automatically update to reflect the selected period. 
+
+The line chart displays monthly COVID-19 deaths, with interactive tooltips providing the exact number of deaths for each month. Peaks indicate periods with higher monthly death counts, while declines indicate periods with fewer recorded deaths. This visualisation helps identify changes in national mortality patterns over time.
+
+**Data consideration**: Monthly deaths are classified by month of occurrence. Only January is available for 2024, so the final year does not represent a complete annual period.
+
+# Comparing mortality across states and territories
+The State & Territory tab allows users to compare registered COVID-19 deaths across Australia's eight states and territories.
+
+Select a year from the dropdown menu to update the total registered deaths, bar chart, and geographical map.
+
+The bar chart compares recorded death counts across jurisdictions, while the map displays their geographical distribution. Hover over individual bars or map regions to view the corresponding death counts. The map represents the distribution of recorded deaths, not population-adjusted mortality rates. Larger bars and darker map regions indicate higher numbers of recorded deaths. These visualisations help identify geographical differences in registered COVID-19 mortality.
+
+## Exploring changes between years
+The Additional Analysis section provides further comparisons. Expand this section and select *Change in deaths between two years* from the analysis dropdown.
+
+Choose a starting year and an ending year to compare registered death counts across states and territories.
+
+The resulting bar chart displays both absolute and percentage changes when hovering over each bar.
+
+- Positive absolute changes indicate an increase in registered deaths.
+- Negative absolute changesindicate a decrease.
+- Percentage changes show the relative magnitude of the change compared with the starting year's death count. If the starting year's count is zero, the percentage change cannot be calculated and is displayed as N/A.
+
+The starting and ending years must be different, and the ending year must be later than the starting year.
+
+## Examining the distribution of deaths
+Alternatively, select *Distribution of deaths across states and territories* from the analysis dropdown.
+
+Choose a year to view the percentage distribution of each state and territory to total registered deaths.
+
+Each bar represents the proportion of national registered deaths attributed to a particular jurisdiction. The shares across all eight jurisdictions sum to 100%. This analysis helps compare the distribution of recorded deaths across jurisdictions, rather than comparing their absolute counts alone.
+
+# Exploring socioeconomic differences
+The SEIFA tab allows users to examine differences in registered COVID-19 deaths across five socioeconomic disadvantage quintiles.
+
+Select a year from the dropdown menu to update the total registered deaths and bar chart. The quintiles represent areas grouped according to their level of socioeconomic disadvantage:
+
+- Quintile 1 represents the most disadvantaged areas.
+- Quintile 5 represents the least disadvantaged areas.
+
+The bar chart compares registered death counts across these groups. Hover over the bars to view the exact counts. This visualisation helps identify differences in the distribution of recorded COVID-19 deaths across areas with different levels of socioeconomic disadvantage. However, higher death counts do not necessarily indicate higher individual mortality risk.
+
+# Interpretation and limitations
+The application provides several ways to explore COVID-19 mortality patterns in Australia, including changes over time, geographical differences, and socioeconomic distributions.
+
+Several considerations are important when interpreting the results:
+
+- **Death counts versus mortality rates:** The datasets contain death counts rather than population-adjusted mortality rates. Differences may partly reflect population size.
+- **Registration versus occurrence:** The state and SEIFA datasets classify deaths by year of registration, whereas the monthly dataset records deaths by month of occurrence. These datasets use different time bases and should not be directly compared without considering this distinction.
+- **SEIFA interpretation:** The SEIFA dataset classifies deaths according to the socioeconomic characteristics of an area of residence. It does not establish individual socioeconomic circumstances or individual mortality risk.
+- **Data availability:** The monthly dataset covers January 2020 to January 2024, with data available only through January 2024. Therefore, 2024 does not represent a complete year. The ABS data are also provisional and may be subject to revision.
+
+Consequently, the visualisations support exploratory comparisons of recorded COVID-19 deaths but do not establish causal relationships or differences in individual mortality risk.
