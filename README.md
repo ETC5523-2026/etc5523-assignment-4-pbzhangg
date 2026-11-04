@@ -40,8 +40,8 @@ You can install the development version of covidmortality from
 with:
 
 ``` r
-# install.packages("pak")
-pak::pak("ETC5523-2026/etc5523-assignment-4-pbzhangg")
+install.packages("remotes")
+remotes::install_github("ETC5523-2026/etc5523-assignment-4-pbzhangg")
 ```
 
 ## Launching the Shiny application

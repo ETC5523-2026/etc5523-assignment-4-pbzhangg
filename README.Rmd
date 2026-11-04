@@ -35,14 +35,14 @@ The goal of `covidmortality` is to make the data accessible and facilitate explo
 
 You can install the development version of covidmortality from [GitHub](https://github.com/ETC5523-2026/etc5523-assignment-4-pbzhangg) with:
 
-``` r
-# install.packages("pak")
-pak::pak("ETC5523-2026/etc5523-assignment-4-pbzhangg")
+```{r, eval = FALSE}
+install.packages("remotes")
+remotes::install_github("ETC5523-2026/etc5523-assignment-4-pbzhangg")
 ```
 
 ## Launching the Shiny application
 After installing the package, launch the interactive application using:
-``` r
+``` {r, eval = FALSE}
 covidmortality::run_app()
 ```
 
