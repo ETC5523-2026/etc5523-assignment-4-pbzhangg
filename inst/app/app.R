@@ -63,7 +63,7 @@ ui <- navbarPage(
     p(
       strong("How to interpret: "),
       "The line chart shows how monthly COVID-19 deaths changed over time. 
-      Peaks indicate months with higher numbers of deaths, while decines indicate 
+      Peaks indicate months with higher numbers of deaths, while declines indicate 
       periods with fewer deaths. This helps identify changes in national mortality 
       patterns in Australia between 2020 and 2024."
     ),
@@ -344,7 +344,7 @@ server <- function(input, output, session) {
         )
       )
     ) +
-      geom_col(fill = "#FC4E2AFF") +
+      geom_col(fill = "#F4A261") +
       coord_flip() +
       scale_y_continuous(
         labels = scales::comma
@@ -455,11 +455,16 @@ server <- function(input, output, session) {
         text = paste0(
           "State/Territory: ", group, 
           "<br>Absolute change: ", format(absolute_change, big.mark = ","),
-          "<br>Percentage change: ", round(percent_change, 1), "%"
+          "<br>Percentage change: ",
+          ifelse(
+            is.na(percent_change),
+            "N/A (starting value is zero)",
+            paste0(round(percent_change, 1), "%")
+          )
         )
       )
     ) +
-      geom_col(fill = "#FC4E2AFF") +
+      geom_col(fill = "#F4A261") +
       coord_flip() +
       scale_y_continuous(labels = scales::comma) +
       labs(
@@ -489,7 +494,7 @@ server <- function(input, output, session) {
           )
       )
     ) +
-      geom_col(fill = "#FC4E2AFF") +
+      geom_col(fill = "#F4A261") +
       coord_flip() +
       scale_y_continuous(labels = scales::label_percent(scale = 1)) +
       labs(
@@ -533,7 +538,7 @@ server <- function(input, output, session) {
         )
       )
     ) +
-      geom_col(fill = "#FC4E2AFF") +
+      geom_col(fill = "#F4A261") +
       scale_y_continuous(labels = scales::comma) +
       labs(title = paste("COVID-19 Deaths by SEIFA Quintile in", input$seifa_year),
           x = "SEIFA Quintile",
