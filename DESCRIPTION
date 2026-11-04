@@ -15,3 +15,11 @@ LazyData: true
 LazyDataCompression: xz
 Imports: 
     dplyr
+Suggests:
+    shiny,
+    plotly,
+    ggplot2,
+    leaflet,
+    scales,
+    shinyWidgets,
+    sf
